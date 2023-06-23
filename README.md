@@ -6,7 +6,7 @@ Join me as we delve into the step-by-step development process, covering the nece
 
 ## Table of Contents
 
-- [Building an order-based swap decentralised platform on Celo using Foundry]
+- [Building an order-based swap decentralised platform on Celo using Foundry](#building-an-order-based-swap-decentralised-platform-on-celo-using-foundry)
   - [Introduction](#introduction)
   - [Table of Contents](#table-of-contents)
   - [Objective](#objective)
@@ -18,29 +18,30 @@ Join me as we delve into the step-by-step development process, covering the nece
     - [STEP 2 - Create your Smart contracts](#step-2---create-your-smart-contracts)
       - [Order Swap Smart Contract](#order-swap-smart-contract)
       - [Order Swap Smart Contract Explained](#order-swap-smart-contract-explained)
-    - [STEP 3 - Deploying your contracts](#step-3---deploying-your-contracts)
-    - [STEP 4 - Verifying your contracts](#step-4---verifying-your-contracts)
+    - [STEP 3 - Testing the smart contract](#step-3---testing-the-smart-contract)
+    - [STEP 4 - Deploying the contracts](#step-4---deploying-the-contracts)
     - [Conclusion](#conclusion)
-    - [Next Step]
-    - [About Author]
+    - [References](#references)
+    - [Next Step](#next-step)
+    - [About Author](#about-author)
 
 ## Objective
 
-The objective of this tutorial is to provide readers knowledge on how to create an order-based swap smart contract on the Celo blockchain using Foundry. By the end of this tutorial, you will have a comprehensive understanding of the process involved in building an order-based swap smart contract on Celo using Foundry. Armed with this knowledge, developers will be equipped to contribute to the evolving landscape of DeFi on Celo and drive innovation in decentralized exchanges.
+The objective of this tutorial is to provide you knowledge on how to create an order-based swap smart contract on the Celo blockchain using Foundry. By the end of this tutorial, you will have a comprehensive understanding of the process involved in building an order-based swap smart contract on Celo using Foundry. Armed with this knowledge, you will be equipped to contribute to the evolving landscape of DeFi on Celo and drive innovation in decentralized exchanges.
 
 ## Prerequisites
 
-To ensure that you effectively follow through the process outlined in the tutorial, it is recommended that you have the following prerequisites:
+To ensure that you effectively follow through the process outlined in the tutorial, it is recommended that you have the following prerequisites and meet the requirements:
 
 - Basic Blockchain Knowledge: Familiarity with blockchain technology, its underlying concepts, and the basics of smart contracts is essential.
 - Proficiency in the Solidity programming language used for writing smart contracts on the Celo blockchain and also used for testing in Foundry.
-- Celo Wallet: Acquire a Celo-compatible wallet to interact with the Celo blockchain and deploy and test the smart contract. Examples include the Celo Extension Wallet or the Valora wallet or Metamask wallet.
-- A text editor: For this tutorial, we will make use of Visual Studio Code, so ensure you have VS Code setup on your PC: VSCode is a popular integrated development environment (IDE) for building software.
-- Have foundry installed, you can follow the process [here](https://book.getfoundry.sh/getting-started/installation)
+- Celo Wallet: Acquire a Celo-compatible wallet to interact with the Celo blockchain to deploy and test the smart contract. Examples include the Celo Extension Wallet or the Valora wallet or Metamask wallet.
+- A text editor: For this tutorial, we will make use of Visual Studio Code, so ensure you have VS Code setup on your PC.
+- Have Foundry installed, you can follow the process [here](https://book.getfoundry.sh/getting-started/installation)
 
 ## Understanding Order-Based Swaps
 
-Order-based swaps refer to a type of transaction within decentralized finance (DeFi) that allows individuals to exchange tokens based on predetermined orders. These swaps rely on the concept of an order book, which acts as a central repository for buy and sell orders placed by participants. This type of swap is often used to hedge against market risk or to take advantage of price discrepancies between different markets.
+Order-based swaps refer to a type of transaction within decentralized finance (DeFi) that allows individuals to exchange tokens based on predetermined orders. These swaps rely on the concept of an **order book**, which acts as a central repository for buy and sell orders placed by participants. It is often used to hedge against market risk or to take advantage of price discrepancies between different markets.
 
 In an order-based swap, participants can either submit limit orders or market orders. A limit order specifies the desired price at which the participant is willing to buy or sell tokens, while a market order indicates an immediate transaction at the best available price in the order book.
 
@@ -54,8 +55,6 @@ Order-based swaps offer several advantages. They provide participants with more 
 - The orders are specified in terms of the underlying security, the quantity of the security, and the price at which the security is to be exchanged.
 - The swap is typically settled on a net basis, meaning that the party with the higher value of orders pays the difference to the party with the lower value of orders.
 
-### Explaining the benefits and functionalities of order books, liquidity pools, and the role they play in facilitating efficient token swaps.
-
 ## Tutorial
 
 ### STEP 1 - Set up Foundry Environment
@@ -66,7 +65,7 @@ To begin setting up the Foundry environment for your smart contract implementati
 forge init order_swap
 ```
 
-This creates a new directory order_swap from the default foundry template. This also initializes a new git repository. Next, navigate to your project folder using the ‘cd’ command, like so:
+This creates a new directory "order_swap" from the default foundry template. This also initializes a new git repository. Next, navigate to your project folder using the ‘cd’ command, like so:
 
 ```
 cd order_swap
@@ -79,16 +78,11 @@ code .
 ```
 
 ![Project Initialisation](Images/forgeinit.png)
-
 This will open up your project folder in Visual Studio Code, where you can start writing your smart contract code.
 
 ### STEP 2 - Create your Smart contracts
 
-In the root directory of your project, you'll find a folder named "src". To create a new contract file, simply navigate to this folder and add your new file.
-
-Next thing we need to do is install OpenZeppelin in Foundry like so:
-
-Open your VSCode terminal window and run the following command:
+In the root directory of your project, you'll find a folder named "src". To create a new contract file, simply navigate to this folder and add your new file. Next thing you need to do is open your VSCode terminal window and run the following command to install OpenZeppelin in Foundry like so:
 
 ```solidity
 forge install openzeppelin/openzeppelin-contracts
@@ -100,9 +94,7 @@ OR
 forge install openzeppelin/openzeppelin-contracts --no-commit
 ```
 
-This will install OpenZeppelin in your Foundry project.
-
-Once OpenZeppelin is installed, you need to create a remappings.txt file. This file will tell Foundry where to find the OpenZeppelin library.
+This will install OpenZeppelin in your Foundry project. Once OpenZeppelin is installed, you need to create a remappings.txt file. This file will tell Foundry where to find the OpenZeppelin library.
 
 ```
 touch remappings.txt
@@ -114,13 +106,12 @@ Open the remappings.txt file and add the following line:
 openzeppelin/=lib/openzeppelin-contracts/
 ```
 
-This line tells Foundry that the OpenZeppelin library can be found in the lib/openzeppelin-contracts/ directory.
-
-Save the remappings.txt file and you are now ready to use OpenZeppelin in your Foundry project.
+This line tells Foundry that the OpenZeppelin library can be found in the "lib/openzeppelin-contracts/" directory. Save the remappings.txt file and you are now ready to use OpenZeppelin in your Foundry project.
 Here is an example of how to import the OpenZeppelin ERC20 library in your contract:
 
-```
+```solidity
 import { ERC20 } from "openzeppelin/contracts/token/ERC20/ERC20.sol";
+
 ```
 
 Once you have imported the OpenZeppelin ERC20 library, you can use it for what you want in your project.
@@ -348,8 +339,8 @@ function executeOrder(uint256 customerID) external {
 
 The executeOrder function is used to execute a previously placed order for token swapping. It takes the following parameter:
 
-customerID: The ID of the order to be executed.
-<br/>
+- customerID: The ID of the order to be executed.
+
 The function begins by retrieving the OrderDetails struct corresponding to the provided "customerID" from the \_orderdetails mapping and storing it in the "OD" variable.
 <br/>
 
@@ -402,20 +393,19 @@ pragma solidity ^0.8.19;
 import { ERC20 } from "openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract BananaToken is ERC20 {
-  address owner;
-
-  constructor() ERC20("Banana", "BANA") {
-    owner = msg.sender;
-    _mint(address(this), 2000000 * 10**decimals());
-  }
-
-  function mint(address to, uint256 amount) public {
-    require(msg.sender == owner, "Not owner");
-    _mint(to, amount);
+  constructor(address user) ERC20("Banana", "BANA") {
+    _mint(user, 2000000 * 10**decimals());
   }
 }
 
 ```
+
+BananaToken:
+
+- The contract extends the ERC20 contract from the OpenZeppelin library.
+- The contract represents a token called "Banana" with the symbol "BANA".
+- In the constructor function, an initial supply of 2,000,000 Banana tokens is minted and assigned to the specified user address.
+- The user parameter in the constructor allows the deployer of the contract to specify the address that will receive the initial token supply.
 
 ```solidity
 //SPDX-License-Identifier: MIT
@@ -424,33 +414,25 @@ pragma solidity ^0.8.19;
 import { ERC20 } from "openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract MangoToken is ERC20 {
-  address owner;
-
-  constructor() ERC20("Mango", "MNG") {
-    owner = msg.sender;
-    _mint(address(this), 2000000 * 10**decimals());
-  }
-
-  function mint(address to, uint256 amount) public {
-    require(msg.sender == owner, "Not owner");
-    _mint(to, amount);
+  constructor(address user) ERC20("Mango", "MNG") {
+    _mint(user, 2000000 * 10**decimals());
   }
 }
 
 ```
 
-The contract "BananaToken" and "MangoToken" extends the ERC20 contract.
+MangoToken:
 
-Constructor: The constructor function is executed when the contract is deployed. In this case, it sets the contract deployer (msg.sender) as the owner and mints an initial supply of 2,000,000 tokens to the contract itself for both tokens using the \_mint function inherited from ERC20.
-<br/>
+- Similar to BananaToken, this contract also extends the ERC20 contract from the OpenZeppelin library.
+- The contract represents a token called "Mango" with the symbol "MNG".
+- In the constructor function, an initial supply of 2,000,000 Mango tokens is minted and assigned to the specified user address.
+- The user parameter in the constructor allows the deployer of the contract to specify the address that will receive the initial token supply.
 
-Mint Function: The contract includes a public function named "mint" that allows the owner (msg.sender) to mint additional Mango tokens. The function requires that the caller is the owner and then calls the \_mint function to mint the specified amount of tokens and assign them to the specified recipient (to).
-<br/>
+Both contracts follow the ERC20 standard, which means they include functions and events required for ERC20-compliant tokens such as transfer, balanceOf, and transferFrom. They also inherit functionalities from the OpenZeppelin ERC20 contract, which provides robust implementations for token operations.
 
-By deploying this contract, you can create instances of the Banana & Mango token and have the ability to mint new tokens if you are the owner of the contract.
-<br/>
+These contracts can be used as a starting point for creating and deploying ERC20 tokens on a blockchain network. Once deployed, the tokens can be transferred, traded, and interacted with according to the rules and functionalities defined by the ERC20 standard.
 
-Next thing we need to do is to compile/build the contract. To build, use:
+Next thing we need to do is to compile/build the contracts. To build, use:
 
 ```
 forge build
@@ -460,17 +442,129 @@ forge build
 
 Now that our contract has successfully compiled, the next thing to do is to test the smart contract.
 
-## STEP 3 - Deploying your contracts
+## STEP 3 - Testing the smart contract
 
-## STEP 4 - Verifying your contracts
+Testing smart contracts is an essential and critical stage in the development process to guarantee the accuracy, security, and effective operation of the contracts. The subsequent step involves creating test cases for the smart contract. Foundry offers the capability to write test cases using Solidity. Let's proceed with writing the tests.
 
-Demonstrating the interaction between the order book, liquidity pools, and the smart contract for seamless order execution.
+To begin, go to the "test" directory and generate the test file name using the format file_name.t.sol, for example, "Orderswap.t.sol". Then, proceed with writing the test in the file.
+
+```solidity
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.13;
+
+import "forge-std/Test.sol";
+import "../src/Orderswap.sol";
+import "../src/BananaToken.sol";
+import "../src/MangoToken.sol";
+
+contract OrderswapTest is Test {
+  Orderswap public orderswap;
+  BananaToken public bananatoken;
+  MangoToken public mangotoken;
+
+  address customer = mkaddr("customer"); //user comming to place order
+  address executor = mkaddr("executor"); //user who is executing the order
+
+  function setUp() public {
+    orderswap = new Orderswap();
+    bananatoken = new BananaToken(customer);
+    mangotoken = new MangoToken(executor);
+  }
+
+  function testSwap() public {
+    vm.startPrank(customer); //customer starts by ordeirng
+    ERC20(address(bananatoken)).approve(address(orderswap), 200e18);
+    orderswap.placeOrder(
+      address(bananatoken),
+      address(mangotoken),
+      200e18,
+      210e18
+    );
+    vm.stopPrank();
+    vm.startPrank(executor);
+    ERC20(address(mangotoken)).approve(address(orderswap), 210e18);
+    orderswap.executeOrder(1);
+    vm.stopPrank;
+  }
+
+  function mkaddr(string memory name) public returns (address) {
+    address addr = address(uint160(uint256(keccak256(abi.encodePacked(name)))));
+    vm.label(addr, name);
+    return addr;
+  }
+}
+
+```
+
+The contract is called "OrderswapTest" and it inherits from the Test contract, which provides some basic testing functionality. The contract also imports three other contracts: Orderswap, BananaToken, and MangoToken.
+
+The Orderswap contract is the main contract that is being tested. It is the contract that facilitates the token swap between bananas and mangoes. The BananaToken contract represents the banana token. It is the token that is being swapped for mangoes. The MangoToken contract represents the mango token. It is the token that is being received in exchange for bananas.
+
+The contract has three functions:
+
+- setUp(): An optional function invoked before each test case is run
+- testSwap(): Functions prefixed with test are run as a test case
+- mkaddr()
+
+The setUp() function is called before the testSwap() function and it initializes the state of the contract. It creates new instances of the Orderswap, BananaToken, and MangoToken contracts and assigns them to the "orderswap", "bananatoken", and "mangotoken" variables.
+
+The testSwap() function is the main test function. It simulates a user placing an order to swap bananas for mangoes. The function first starts a prank with the customer address. This allows the customer address to call functions on the Orderswap contract. The function then calls the approve() function on the BananaToken contract to approve the Orderswap contract to spend 200e18 bananas on behalf of the customer address. The function then calls the placeOrder() function on the Orderswap contract to place an order to swap 200e18 bananas for 210e18 mangoes. The function then stops the prank with the customer address.
+
+The function then starts a prank with the executor address. This allows the executor address to call functions on the Orderswap contract. The function then calls the approve() function on the MangoToken contract to approve the Orderswap contract to spend 210e18 mangoes on behalf of the executor address. The function then calls the executeOrder() function on the Orderswap contract to execute the order. The function then stops the prank with the executor address. "startprank" and "stopprank" are both foundry cheatcodes, to know more about cheatcodes check this [documentation](https://book.getfoundry.sh/forge/cheatcodes).
+
+The mkaddr() function is a helper function that creates a new address from a string in foundry. The function takes a string as input and returns an address. The function first converts the string to a uint160 value and then casts the value to an address. The function then labels the address with the string.
+
+This is a simple test contract that demonstrates how to test a smart contract that uses order books to facilitate token swaps.
+
+Once you are done writing your test, the next thing is to run:
+
+```
+forge test
+```
+
+![Orderswap Test](Images/forgetest.png)
+
+As you can see in the above image above, our test ran successfully.
+
+## STEP 4 - Deploying the contracts
+
+To deploy our compiled contract using Forge, we need to set environment variables for the RPC endpoint and the private key we want to use for deployment. You can set these environment variables by running the following command:
+
+```
+export RPC_URL=https://alfajores-forno.celo-testnet.org
+export PRIVATE_KEY=<Your wallets private key>
+```
+
+Once you have set the environment variables, you can deploy your contracts using Forge by running the following command, making sure to provide the necessary constructor arguments for contract if need be, here the Orderswap contract doesn't have a constructor function:
+
+```
+forge create Orderswap --rpc-url=$RPC_URL --private-key=$PRIVATE_KEY
+```
+
+![Orderswap Deployment](Images/forgedeploy.png)
+
+The contract has been successfully deployed to the Celo Alfajores testnet, as shown in the image output, see here on [celoscan](https://alfajores.celoscan.io/tx/0xe632d137d97c51c3a7235b39807b9ae45e5b99f1e3a3f3c7e39c07bc146c49e2).
 
 ## Conclusion
 
-Summarizing the key insights gained throughout the article, emphasizing the significance of building order-based swap smart contracts on Celo using Foundry.
-Highlighting the potential impact of these smart contracts in enhancing liquidity and trading capabilities within the Celo ecosystem.
+In conclusion, this tutorial provided a comprehensive guide on building an order-based swap smart contract on the Celo blockchain using Foundry. By leveraging the capabilities of Foundry and the power of smart contracts, developers can create a decentralized platform for executing order-based swaps efficiently and securely.
+
+## References
+
+[Foundry Book](https://book.getfoundry.sh/)
 
 ## Next Step
 
+After completing the tutorial on building an order-based swap smart contract on Celo using Foundry, here are a few recommended next steps:
+
+- Explore advanced smart contract concepts like contract inheritance, interaction, event handling, and security.
+- Build your own DeFi application or expand the functionality of the order-based swap platform.
+- Study other DeFi protocols beyond order-based swaps, such as DEXs, lending/borrowing platforms, and yield farming.
+- Engage with the Celo community through forums and social media to connect with developers and stay updated.
+- Stay updated with the latest developments in blockchain and DeFi through news, webinars, and research papers.
+
+Continuous learning, practical application, and staying updated are crucial for mastering blockchain development and contributing to the decentralized ecosystem.
+
 ## About Author
+
+Oluwatosin Serah is an highly skilled professional with a diverse skill set encompassing technical writing, blockchain education, and smart contract development. My expertise extends to creating cutting-edge and decentralized applications, reflecting my deep passion for innovation in the blockchain space. With a strong commitment to making a significant impact in the industry, I leverage my creativity and extensive knowledge to drive advancements and shape the future of blockchain technology.
